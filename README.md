@@ -97,3 +97,7 @@ make_injection_test_png.py   generates the code-injection canary test image
 check_injection_canaries.py  verifies no embedded payload executed
 docs/                        README assets (demo GIF + stills)
 ```
+
+## License
+
+[MIT](LICENSE)
