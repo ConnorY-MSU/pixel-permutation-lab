@@ -2,11 +2,15 @@
 
 A from-scratch, keyed, reversible pixel-shuffle transform for images — built to understand permutation ciphers hands-on, and stress-tested against an image carrying real code-injection payloads in its metadata.
 
+![Pixel Permutation Lab demo](docs/demo-sample.gif)
+
+Same test photo as the animation above ([`docs/sample.png`](docs/sample.png), a resized PNG test image), run through the real `theory.py` pipeline at full size (615,300 pixels). The animation itself uses an 80×101 thumbnail of the same photo (8,080 pixels) — a small image keeps every individual pixel move legible in the animation and console log, rather than a blur of thousands of lines per second; see [Watching it happen, pixel by pixel](#watching-it-happen-pixel-by-pixel) below for the same reasoning applied to the injection-test image:
+
 | Original | Shuffled | Reconstructed |
 |---|---|---|
 | ![original](docs/base-original.png) | ![shuffled](docs/base-shuffled.png) | ![reconstructed](docs/base-reconstructed.png) |
 
-615,300 pixels ([`docs/sample.png`](docs/sample.png), a resized PNG test image), shuffled and unshuffled through the real `theory.py` pipeline (flatten → permute → serialize to bytes → parse → reverse). Reconstructed is a bit-for-bit match of Original.
+Reconstructed is a bit-for-bit match of Original.
 
 ## What this is
 
@@ -18,7 +22,7 @@ Four things live here:
 |---|---|
 | [`theory.py`](theory.py) | The core algorithm: load an image, shuffle its pixels with a seeded permutation, serialize to a flat byte file, then reverse it and confirm a bit-for-bit match. No visualization — just the mechanism. |
 | [`make_before_after.py`](make_before_after.py) | Runs the real `theory.py` pipeline on any image and saves original/shuffled/reconstructed stills — this is what generated the table above. |
-| [`pixel_demo.py`](pixel_demo.py) | An animated, two-device simulation of the same pipeline on a small image, with a live console log on each side and drawn paths tracking individual pixels — see [Code-injection test](#code-injection-test) below, where it's used. |
+| [`pixel_demo.py`](pixel_demo.py) | An animated, two-device simulation of the same pipeline on a small image, with a live console log on each side and drawn paths tracking individual pixels — generated the GIF above (on a thumbnail of the test photo) and the one in [Code-injection test](#code-injection-test) below (on `injection_test.png`). |
 | [`make_injection_test_png.py`](make_injection_test_png.py) + [`check_injection_canaries.py`](check_injection_canaries.py) | A safety-testing pair: generates a PNG with ~45 categories of real code-injection payloads embedded in its metadata, each wired to a harmless local canary file, then verifies after any pipeline run that nothing actually fired. |
 
 ## How it works
@@ -102,7 +106,7 @@ make_before_after.py         runs theory.py on any image, saves before/after sti
 pixel_demo.py                animated two-device visualization
 make_injection_test_png.py   generates the code-injection canary test image
 check_injection_canaries.py  verifies no embedded payload executed
-docs/                        README assets (sample image, stills, demo GIF)
+docs/                        README assets (sample image + thumbnail, stills, demo GIFs)
 ```
 
 ## License
